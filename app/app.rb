@@ -3,6 +3,7 @@ require 'rack/contrib'
 require 'sinatra'
 require './app/util'
 require './app/move'
+require 'byebug'
 
 use Rack::PostBodyContentTypeParser
 # This function is called when you register your Battlesnake on play.battlesnake.com
@@ -10,9 +11,9 @@ use Rack::PostBodyContentTypeParser
 # TIP: If you open your Battlesnake URL in browser you should see this data
 get '/' do
   appearance = {
-    apiversion: "1",        
-    author: "",           # TODO: Your Battlesnake Username
-    color: "#888888",     # TODO: Personalize
+    apiversion: "1",
+    author: "alexandre-f-ouellette",           # TODO: Your Battlesnake Username
+    color: "#c842f5",     # TODO: Personalize
     head: "default",      # TODO: Personalize
     tail: "default",      # TODO: Personalize
   }
