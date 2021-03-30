@@ -3,6 +3,9 @@ require 'rack/contrib'
 require 'sinatra'
 require './app/util'
 require './app/move'
+require './app/graph'
+require './app/node'
+require './app/astar'
 require 'byebug'
 
 use Rack::PostBodyContentTypeParser
@@ -36,10 +39,11 @@ end
 post '/move' do
   request = underscore(env['rack.request.form_hash'])
 
-  # Implement move logic in app/move.rb
-  response = move(request)
+  move = move(request)
+
   content_type :json
-  camelcase(response).to_json
+  puts "MOVE: #{move}"
+  camelcase('move': move).to_json
 end
 
 # This function is called when a game your Battlesnake was in ends.
