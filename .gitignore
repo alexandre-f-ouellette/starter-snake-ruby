@@ -6,3 +6,4 @@ battlesnake
 .byebug_history
 /vendor/bundle
 /.bundle
+serverless-output.yaml
