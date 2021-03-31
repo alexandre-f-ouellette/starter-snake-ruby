@@ -24,6 +24,7 @@ GEM
       rack
     reline (0.2.4)
       io-console (~> 0.5)
+    rubysl-base64 (2.0.0)
     sinatra (2.0.7)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -43,7 +44,9 @@ DEPENDENCIES
   byebug
   irb
   json
+  rack
   rack-contrib
+  rubysl-base64
   sinatra
 
 BUNDLED WITH
