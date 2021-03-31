@@ -4,3 +4,5 @@ battlesnake
 .idea
 .vscode
 .byebug_history
+/vendor/bundle
+/.bundle
