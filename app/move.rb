@@ -27,8 +27,8 @@ def move(request)
     request
     .dig(:board, :food)
     .sort do |a, b|
-      a_node_h_dist = graph.start.distance(Node.new(a[:x], a[:x]))
-      b_node_h_dist = graph.start.distance(Node.new(b[:x], b[:x]))
+      a_node_h_dist = graph.start.distance(Node.new(a[:x], a[:y]))
+      b_node_h_dist = graph.start.distance(Node.new(b[:x], b[:y]))
 
       a_node_h_dist <=> b_node_h_dist
     end
@@ -50,6 +50,7 @@ def move(request)
   elsif next_node.y < graph.start.y
     'down'
   else
+    # TODO: replace this with navigating to biggest open space
     possible_moves.sample
   end
 end
