@@ -53,14 +53,7 @@ def move(request)
       break path if path.present?
     end
 
-  next_node =
-    if path.present?
-      path&.first
-    else
-      tail = request.dig(:you, :body).last
-
-      Node.new(tail[:x], tail[:y])
-    end
+  next_node = path&.first
 
   if next_node.x > start_x
     'right'
