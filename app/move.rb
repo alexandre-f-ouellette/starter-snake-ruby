@@ -15,39 +15,60 @@ def move(request)
       res << snake[:body]
     end.flatten.uniq
 
-  graph = Graph.new(
-    width: request.dig(:board, :width),
-    height: request.dig(:board, :height),
-    start_x: request.dig(:you, :head, :x),
-    start_y: request.dig(:you, :head, :y),
-    obstacles: obstacles
-  )
+  start_x = request.dig(:you, :head, :x)
+  start_y = request.dig(:you, :head, :y)
 
-  h_sorted_foods =
+  h_sorted_targets =
     request
     .dig(:board, :food)
     .sort do |a, b|
-      a_node_h_dist = graph.start.distance(Node.new(a[:x], a[:y]))
-      b_node_h_dist = graph.start.distance(Node.new(b[:x], b[:y]))
+      start_node = Node.new(start_x, start_y)
+
+      a_node_h_dist = start_node.distance(Node.new(a[:x], a[:y]))
+      b_node_h_dist = start_node.distance(Node.new(b[:x], b[:y]))
 
       a_node_h_dist <=> b_node_h_dist
     end
 
-  food = h_sorted_foods.first
+  i = 0
 
-  graph.set_end(food[:x], food[:y])
+  path =
+    while i < h_sorted_targets.size
+      target = h_sorted_targets[i]
 
-  path = ASTAR.new(graph.start, graph.end).search
+      graph = Graph.new(
+        width: request.dig(:board, :width),
+        height: request.dig(:board, :height),
+        start_x: start_x,
+        start_y: start_y,
+        obstacles: obstacles
+      )
 
-  next_node = path&.first
+      graph.set_end(target[:x], target[:y])
 
-  if next_node.x > graph.start.x
+      path = ASTAR.new(graph.start, graph.end).search
+
+      i += 1
+
+      break path if path.present?
+    end
+
+  next_node =
+    if path.present?
+      path&.first
+    else
+      tail = request.dig(:you, :body).last
+
+      Node.new(tail[:x], tail[:y])
+    end
+
+  if next_node.x > start_x
     'right'
-  elsif next_node.x < graph.start.x
+  elsif next_node.x < start_x
     'left'
-  elsif next_node.y > graph.start.y
+  elsif next_node.y > start_y
     'up'
-  elsif next_node.y < graph.start.y
+  elsif next_node.y < start_y
     'down'
   else
     # TODO: replace this with navigating to biggest open space

@@ -36,17 +36,21 @@ class Node
   ##
   # The total heuristic distance
   def h_dist_total
-    self.h_dist_start + self.h_dist_end
+    h_dist_start + h_dist_end
+  end
+
+  def coords
+    {
+      x: @x,
+      y: @y
+    }
   end
 
   # Evaluates the distance of the current node with another node
   def distance(other_node)
     raise ArgumentError, "A Node must be given as input.\n Received a #{other_node.class}" unless other_node.is_a? Node
 
-    return (
-      (@x - other_node.x) ** 2 +
-      (@y - other_node.y) ** 2
-    ) ** (0.5)
+    ((@x - other_node.x)**2 + (@y - other_node.y)**2)**0.5
   end
 
   # Add a new edge to a Node in the edges list @next_nodes.
@@ -55,4 +59,4 @@ class Node
 
     @next_nodes << node
   end
-end # Node
+end
