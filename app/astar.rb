@@ -7,8 +7,10 @@
 class ASTAR
 
   def initialize(start, stop)
-    [start, stop].each do |e|
-      raise ArgumentError, "Required a Node as input. Received a #{e.class} for #{e.index}" unless e.is_a? Node
+    args = [start, stop]
+
+    args.each do |e|
+      raise ArgumentError, "Required a Node as input. Received a #{e.class} for arg at position #{args.index(e)}" unless e.is_a? Node
     end
 
 
